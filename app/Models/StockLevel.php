@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Utilities\AddGlobalScopeTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StockLevel extends Model
 {
+    use AddGlobalScopeTenant;
+
     public const null CREATED_AT = null;
 
     protected $fillable = [

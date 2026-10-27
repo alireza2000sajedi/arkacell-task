@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Enums\StockMovementType;
+use App\Models\Utilities\AddGlobalScopeTenant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StockMovement extends Model
 {
+    use AddGlobalScopeTenant;
 
     public const null UPDATED_AT = null;
 
