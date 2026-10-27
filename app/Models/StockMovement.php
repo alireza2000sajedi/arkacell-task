@@ -11,7 +11,7 @@ class StockMovement extends Model
 {
     use AddGlobalScopeTenant;
 
-    public const null UPDATED_AT = null;
+    public const UPDATED_AT = null;
 
     protected $fillable = [
         'tenant_id',

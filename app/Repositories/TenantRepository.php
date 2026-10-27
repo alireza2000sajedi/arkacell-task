@@ -13,10 +13,18 @@ class TenantRepository
 
     public function find(string $idOrSubdomain): ?Tenant
     {
-        if (is_numeric($idOrSubdomain)) {
+        if (ctype_digit($idOrSubdomain)) {
             return Tenant::query()->find((int) $idOrSubdomain);
         }
 
         return $this->findBySubdomain($idOrSubdomain);
+    }
+
+    public function firstOrCreateBySubdomain(string $subdomain, string $name): Tenant
+    {
+        return Tenant::query()->firstOrCreate(
+            ['subdomain' => $subdomain],
+            ['name' => $name],
+        );
     }
 }

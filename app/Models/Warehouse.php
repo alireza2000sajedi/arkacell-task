@@ -12,7 +12,7 @@ class Warehouse extends Model
 {
     use HasFactory, AddGlobalScopeTenant;
 
-    public const null UPDATED_AT = null;
+    public const UPDATED_AT = null;
 
     protected $fillable = [
         'tenant_id',

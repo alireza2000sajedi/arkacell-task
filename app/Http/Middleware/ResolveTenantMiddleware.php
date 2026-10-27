@@ -6,7 +6,6 @@ use App\Repositories\TenantRepository;
 use Ars\Responder\Facades\Responder;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Context;
 use Symfony\Component\HttpFoundation\Response;
 
 class ResolveTenantMiddleware
@@ -29,7 +28,7 @@ class ResolveTenantMiddleware
             return Responder::setMessage(__('tenant.not_found'))->notFound();
         }
 
-        Context::add('tenant_id', (int) $tenant->id);
+        set_tenant($tenant);
 
         return $next($request);
     }

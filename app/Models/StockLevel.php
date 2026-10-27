@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use App\Models\Utilities\AddGlobalScopeTenant;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class StockLevel extends Model
 {
-    use AddGlobalScopeTenant;
+    use HasFactory, AddGlobalScopeTenant;
 
-    public const null CREATED_AT = null;
+    public const CREATED_AT = null;
 
     protected $fillable = [
         'tenant_id',
@@ -21,9 +22,7 @@ class StockLevel extends Model
 
     protected $casts = [
         'quantity' => 'int',
-        'updated_at' => 'datetime',
     ];
-
 
     public function tenant(): BelongsTo
     {

@@ -3,14 +3,14 @@
 namespace App\Repositories;
 
 use App\Models\Product;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Tenant;
+use Illuminate\Support\Facades\DB;
 
 class ProductRepository
 {
-    public function exists(int $id): bool
+    public function find(int $id): ?Product
     {
-        return Product::whereKey($id)->exists();
+        return Product::query()->find($id);
     }
 
     public function findBySku(string $sku): ?Product
@@ -18,13 +18,22 @@ class ProductRepository
         return Product::query()->where('sku', $sku)->first();
     }
 
-    public function all(): Collection
+    public function ids(Tenant $tenant, int $limit): array
     {
-        return Product::query()->orderBy('id')->get();
+        return $tenant->products()
+            ->orderBy('id')
+            ->limit($limit)
+            ->pluck('id')
+            ->all();
     }
 
-    public function paginate(int $perPage = 15): LengthAwarePaginator
+    public function count(Tenant $tenant): int
     {
-        return Product::query()->orderBy('id')->paginate($perPage);
+        return $tenant->products()->count();
+    }
+
+    public function insertBatch(array $rows): void
+    {
+        DB::table('products')->insert($rows);
     }
 }

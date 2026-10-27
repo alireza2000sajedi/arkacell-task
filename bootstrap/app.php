@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\OutOfStockException;
 use App\Http\Middleware\ResolveTenantMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -20,6 +21,17 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn(Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
+
+        $exceptions->render(function (OutOfStockException $e, Request $request) {
+            if (! $request->is('api/*') && ! $request->expectsJson()) {
+                return null;
+            }
+
+            return Responder::setSuccess(false)
+                ->setMessage($e->getMessage())
+                ->setStatusCode(422)
+                ->respond();
+        });
 
         $exceptions->render(function (\InvalidArgumentException $e, Request $request) {
             if (!$request->is('api/*') && !$request->expectsJson()) {
